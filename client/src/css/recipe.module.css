@@ -14,6 +14,21 @@
     z-index: 2;
   }
   
+  .imageSmall {
+    width: 75%;
+    height: 100%;
+    border-radius: 50px;
+    object-fit:cover;
+    background-color: rgb(14, 11, 10);
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px;
+    border-color: black;
+    border-style: solid;
+
+    z-index: 2;
+  }
 
 .main {
     margin-top: 0.1%;
@@ -26,10 +41,31 @@
     background-color: grey;
 
 }
+
+.mainSmall {
+    margin-top: 0.1%;
+    margin-bottom: 0.1%;
+    width: 19.8%;
+    height: 250px;
+    float: left;
+    margin-left: 0.1%;
+    margin-right: 0.1%;
+    background-color: grey;
+
+}
 .mainb {
 
     width: 100%;
     height: 700px;
+    float: left;
+    background-color: grey;
+
+}
+
+.mainbSmall {
+
+    width: 100%;
+    height: 200px;
     float: left;
     background-color: grey;
 
@@ -74,3 +110,10 @@ height: 35%;
 
 
 }
+
+.iconSmall{
+    width: 100%;
+    height: 100%;
+    
+    
+    }
