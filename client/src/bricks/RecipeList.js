@@ -92,7 +92,7 @@ function RecipeList(props) {
         </div>
       </Navbar>
       {isGrid ? (
-        isSize ? ( <RecipeGridList recipeList={filteredRecipeList} /> ): (<RecipeGridListSmall recipeList={filteredRecipeList} /> )
+        isSize ? ( <RecipeGridList recipeList={filteredRecipeList} /> ): (<RecipeGridListSmall recipeList={filteredRecipeList} ingredientList = {props.ingredientList}/> )
       ) : (
         <RecipeTableList recipeList={filteredRecipeList} />
       )}

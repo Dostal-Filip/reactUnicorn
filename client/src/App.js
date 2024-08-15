@@ -12,6 +12,9 @@ function App() {
   const [recipeLoadCall, setRecipeLoadCall] = useState({
   state: "pending",
 });
+const [ingredientLoadCall, setIngredientLoadCall] = useState({
+  state: "pending",
+});
   useEffect(() => {
     fetch(`http://localhost:3000//recipe/list`, {
       method: "GET",
@@ -25,6 +28,24 @@ function App() {
     });
   }, []);
 
+  useEffect(() => {
+    fetch(`http://localhost:3000//ingredient/list`, {
+      method: "GET",
+    })
+      .then(async (response) => {
+        const responseJson = await response.json();
+        if (response.status >= 400) {
+          setIngredientLoadCall({ state: "error", error: responseJson });
+        } else {
+          setIngredientLoadCall({ state: "success", data: responseJson });
+        }
+      })
+      .catch(error => {
+        console.error('Error during fetch:', error);
+        setIngredientLoadCall({ state: "error", error });
+      });
+  }, []);
+
   function getChild() {
     switch (recipeLoadCall.state) {
       case "pending":
@@ -36,7 +57,7 @@ function App() {
       case "success":
         return (
           <div className="App">
-            <RecipeList recipeList={recipeLoadCall.data} />
+            <RecipeList recipeList={recipeLoadCall.data}  ingredientList={ingredientLoadCall.data} />
           </div>
         );
       case "error":
