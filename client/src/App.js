@@ -9,12 +9,13 @@ import { mdiLoading } from "@mdi/js";
 
 
 function App() {
+  document.body.style = 'background: darkslategray;';
   const [recipeLoadCall, setRecipeLoadCall] = useState({
-  state: "pending",
-});
-const [ingredientLoadCall, setIngredientLoadCall] = useState({
-  state: "pending",
-});
+    state: "pending",
+  });
+  const [ingredientLoadCall, setIngredientLoadCall] = useState({
+    state: "pending",
+  });
   useEffect(() => {
     fetch(`http://localhost:3000//recipe/list`, {
       method: "GET",
@@ -57,7 +58,7 @@ const [ingredientLoadCall, setIngredientLoadCall] = useState({
       case "success":
         return (
           <div className="App">
-            <RecipeList recipeList={recipeLoadCall.data}  ingredientList={ingredientLoadCall.data} />
+            <RecipeList recipeList={recipeLoadCall.data} ingredientList={ingredientLoadCall.data} />
           </div>
         );
       case "error":

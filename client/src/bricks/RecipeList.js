@@ -6,6 +6,7 @@ import RecipeGridListSmall from "./RecipeGridListSmall";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import "../css/navbar.module.css";
 
 import Icon from "@mdi/react";
 import { mdiTable, mdiViewGridOutline, mdiMagnify, mdiMagnifyPlusOutline, mdiMagnifyMinusOutline } from "@mdi/js";
@@ -39,7 +40,7 @@ function RecipeList(props) {
 
   return (
     <div>
-      <Navbar bg="light">
+      <Navbar bg="myColor" >
         <div className="container-fluid">
           <Navbar.Brand>Seznam receptů</Navbar.Brand>
           <div>
@@ -54,13 +55,13 @@ function RecipeList(props) {
               />
               <Button
                 style={{ marginRight: "8px" }}
-                variant="outline-success"
+                variant="outline-info"
                 type="submit"
               >
                 <Icon size={1} path={mdiMagnify} />
               </Button>
               <Button
-                variant="outline-primary"
+                variant="outline-info"
                 onClick={() =>
                   setViewType((currentState) => {
                     if (currentState === "grid") return "table";
@@ -71,9 +72,9 @@ function RecipeList(props) {
                 <Icon size={1} path={isGrid ? mdiTable : mdiViewGridOutline} />{" "}
                 {isGrid ? "Tabulka" : "Grid"}
               </Button>
-              
+
               <Button
-                variant="outline-primary"
+                variant="outline-info"
                 onClick={() =>
                   setSizeType((currentState) => {
                     if (currentState === "big") return "small";
@@ -92,7 +93,7 @@ function RecipeList(props) {
         </div>
       </Navbar>
       {isGrid ? (
-        isSize ? ( <RecipeGridList recipeList={filteredRecipeList} /> ): (<RecipeGridListSmall recipeList={filteredRecipeList} ingredientList = {props.ingredientList}/> )
+        isSize ? (<RecipeGridList recipeList={filteredRecipeList} />) : (<RecipeGridListSmall recipeList={filteredRecipeList} ingredientList={props.ingredientList} />)
       ) : (
         <RecipeTableList recipeList={filteredRecipeList} />
       )}
