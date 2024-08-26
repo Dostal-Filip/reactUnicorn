@@ -27,7 +27,7 @@ function RecipeList(props) {
         item.description.toLocaleLowerCase().includes(searchBy.toLocaleLowerCase())
       );
     });
-  }, [searchBy]);
+  }, [searchBy, props.recipeList]);
 
   function handleSearch(event) {
     event.preventDefault();
@@ -40,9 +40,11 @@ function RecipeList(props) {
 
   return (
     <div>
-      <Navbar bg="myColor" >
+      <Navbar collapseOnSelect expand="sm" bg="myColor" >
         <div className="container-fluid">
           <Navbar.Brand>Seznam receptů</Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse style={{ justifyContent: "right" }}>
           <div>
             <Form className="d-flex" onSubmit={handleSearch}>
               <Form.Control
@@ -61,6 +63,7 @@ function RecipeList(props) {
                 <Icon size={1} path={mdiMagnify} />
               </Button>
               <Button
+              className={"d-none d-md-block"}
                 variant="outline-info"
                 onClick={() =>
                   setViewType((currentState) => {
@@ -74,6 +77,7 @@ function RecipeList(props) {
               </Button>
 
               <Button
+              className={"d-none d-md-block"}
                 variant="outline-info"
                 onClick={() =>
                   setSizeType((currentState) => {
@@ -84,12 +88,13 @@ function RecipeList(props) {
                 disabled={!isGrid}
               >
                 <Icon size={1} path={isSize ? mdiMagnifyMinusOutline : mdiMagnifyPlusOutline} />{" "}
-                {isSize ? "Small" : "Big"}
+                {isSize ? "Malý" : "Velký"}
               </Button>
 
 
             </Form>
           </div>
+          </Navbar.Collapse>
         </div>
       </Navbar>
       {isGrid ? (

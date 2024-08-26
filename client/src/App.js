@@ -26,6 +26,9 @@ function App() {
       } else {
         setRecipeLoadCall({ state: "success", data: responseJson });
       }
+      
+    }).catch((err) =>{
+      setRecipeLoadCall({ state: "error", error: err });
     });
   }, []);
 
