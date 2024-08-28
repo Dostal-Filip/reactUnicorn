@@ -7,13 +7,18 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Icon from "@mdi/react";
-import { mdiLoading } from "@mdi/js";
+import { mdiPlus } from "@mdi/js";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import RecipeForm from "./bricks/RecipeForm";
 
 function App() {
   let navigate = useNavigate();
+  const [addGradeShow, setAddGradeShow] = useState(false);
+  
+  const handleAddGradeShow = () => setAddGradeShow(true);
 
   return (
     <div className="App">
@@ -43,10 +48,19 @@ function App() {
                 <Nav.Link onClick={() => navigate("/detail")}>
                   Detail
                 </Nav.Link>
+                
+          <RecipeForm
+        student={null}
+        subject={null}
+        classroom={null}
+        show={null}
+        setAddGradeShow={setAddGradeShow}
+      />
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Container>
+        
       </Navbar>
       <div>
       <Outlet />
