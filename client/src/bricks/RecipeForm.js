@@ -12,8 +12,11 @@ function ReciepForm(props) {
     const handleShowModal = () => setShow(true);
     const handleCloseModal = () => setShow(false);
     const appendIngredient = () =>  appendField("ingredients", ingData);
+    const [validated, setValidated] = useState(false); 
 
     const handleSubmit = async (e) => {
+        const form = e.currentTarget; 
+
         e.preventDefault();
         e.stopPropagation();
     
@@ -28,6 +31,11 @@ function ReciepForm(props) {
           const payload3 = {
             ...readOnly,
           };
+
+          if (!form.checkValidity()) { 
+            setValidated(true); 
+            return; 
+          } 
     
         console.log(payload);
         console.log(payload2);
@@ -75,7 +83,7 @@ function ReciepForm(props) {
       });
 
       const [readOnly, setReadOnly] = useState({
-        text: "",
+        text: null
       });
 
       const [formData, setFormData] = useState({
@@ -89,7 +97,7 @@ function ReciepForm(props) {
     return (
         <>
             <Modal show={isModalShown} onHide={handleCloseModal}>
-            <Form onSubmit={(e) => handleSubmit(e)}>
+            <Form noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}>
         <Modal.Header closeButton>
           <Modal.Title>Vytvořit recept</Modal.Title>
         </Modal.Header>
@@ -100,17 +108,26 @@ function ReciepForm(props) {
             <Form.Control
               type="text"
               value={formData.name}
+              required
+              maxLength={50} 
               onChange={(e) => setField("name", e.target.value)}
             />
+            <Form.Control.Feedback type="invalid"> 
+    Zadejte název s maximální délkou 50 znaků 
+  </Form.Control.Feedback> 
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Postup</Form.Label>
             <Form.Control
               as="textarea"
+              required
               rows={4}
               value={formData.description}
               onChange={(e) => setField("description", e.target.value)}
             />
+            <Form.Control.Feedback type="invalid"> 
+    Zadejte popis pracovního postupu
+  </Form.Control.Feedback> 
           </Form.Group>
 
           <Row>
@@ -143,6 +160,8 @@ function ReciepForm(props) {
                 type="number"
                 placeholder="1-5"
                 value={ingData.number}
+                min={1}
+                max={10}
                 onChange={(e) => setIngField("number", parseInt(e.target.value))}
               />
             </Form.Group>
@@ -170,10 +189,16 @@ function ReciepForm(props) {
             <Form.Label>Ingredience:</Form.Label>
             <Form.Control
               as="textarea"
-              readOnly
+              disabled={true}
+              onChange={(e) => {}}
               rows={4}
               value={readOnly.text}
+              required
+              minLength={2}
             />
+            <Form.Control.Feedback type="invalid"> 
+    Je potřeba alespoň jedna ingredience
+  </Form.Control.Feedback> 
           </Form.Group>
 
 
