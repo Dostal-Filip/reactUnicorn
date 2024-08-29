@@ -4,6 +4,7 @@ import { mdiClipboardListOutline, mdiProgressPencil } from "@mdi/js";
 import { mdiPlus, mdiLoading, mdiMinus } from "@mdi/js";
 import { useEffect, useState } from 'react';
 import { Button } from "react-bootstrap";
+import Confirmation from "./Confimation";
 
 
 function ReciepForm(props) {
@@ -308,6 +309,7 @@ function ReciepForm(props) {
                             <Button variant="secondary" onClick={handleClose}>
                                 Zavřít
                             </Button>
+                            <Confirmation>
                             <Button variant="primary" type="submit">
                                 {addRecipeCall.state === 'pending' ? (
                                     <Icon size={0.8} path={mdiLoading} spin={true} />
@@ -315,6 +317,7 @@ function ReciepForm(props) {
                                     props.recipe ? 'Upravit' : 'Přidat'
                                 )}
                             </Button>
+                            </Confirmation>
                         </div>
                     </Modal.Footer>
                 </Form>

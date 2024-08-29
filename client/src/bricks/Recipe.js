@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import styles from "../css/recipe.module.css";
 import IngiridientList from "./IngridientList";
 import ReciepForm from "./RecipeForm";
+import DeleteRecipe from "./DeleteRecipe";
 
 function Recipe(props) {
   return (
@@ -31,6 +32,9 @@ function Recipe(props) {
           ingridientList={props.ingredientList}
 
       />
+      <DeleteRecipe
+      recipe={props.recipe}
+    ></DeleteRecipe>
     </Card>
   );
 }
