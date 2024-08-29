@@ -11,6 +11,7 @@ function ReciepForm(props) {
 
     const handleShowModal = () => setShow(true);
     const handleCloseModal = () => setShow(false);
+    const appendIngredient = () =>  appendField("ingredients", ingData);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,8 +20,27 @@ function ReciepForm(props) {
         const payload = {
           ...formData,
         };
+
+        const payload2 = {
+            ...ingData,
+          };
+
+          const payload3 = {
+            ...readOnly,
+          };
     
         console.log(payload);
+        console.log(payload2);
+        console.log(payload3);
+      };
+
+      const appendField = (name, val) => {
+        return setFormData((formData) => {
+          const newData = { ...formData };
+          newData[name].push(val);
+          setReadOnlyField("text",val);
+          return newData;
+        });
       };
 
       const setField = (name, val) => {
@@ -31,13 +51,39 @@ function ReciepForm(props) {
         });
       };
 
+      const setIngField = (name, val) => {
+        return setIngData((ingData) => {
+          const newData = { ...ingData };
+          newData[name] = val;
+          return newData;
+        });
+      };
+
+      const setReadOnlyField = (name, val) => {
+        return setReadOnly((readOnly) => {
+          const newData = { ...readOnly };
+          newData[name] = newData[name].concat(props.ingridientList.find(item => item.id === val.id).name, " ", val.number, " ", val.unit, "\n");
+          return newData;
+        });
+      };
+      //props.ingridientList.find(item => item.id === val.id).name
+
+      const [ingData, setIngData] = useState({
+        number: "",
+        id: "",
+        unit: ""
+      });
+
+      const [readOnly, setReadOnly] = useState({
+        text: "",
+      });
+
       const [formData, setFormData] = useState({
         name: "",
         description: "",
-        dateTs: new Date().toISOString().substring(0, 10),
-        grade: null,
-        weight: 1,
-      });
+        ingredients : []
+
+    });
 
 
     return (
@@ -68,40 +114,69 @@ function ReciepForm(props) {
           </Form.Group>
 
           <Row>
+
+
             <Form.Group as={Col} className="mb-3">
-              <Form.Label>Známka</Form.Label>
+              <Form.Label>Ingredience</Form.Label>
+              <Form.Select
+                //value={props.ingridientList.find(item => item.id === formData.weight).name }
+                onChange={(e) => setIngField("id", e.target.value)}
+              >
+                <option value="" disabled>
+                  Ingredience
+                </option>
+                {props.ingridientList.map((ingredient) => {
+            return (
+                <option value={ingredient.id}>{ingredient.name}</option>
+              /*<div key={ingredient.id}>
+                {ingredientName.name}
+              </div>*/
+            );
+          })}
+
+              </Form.Select>
+
+            </Form.Group>
+            <Form.Group as={Col} className="mb-3">
+              <Form.Label>Počet</Form.Label>
               <Form.Control
                 type="number"
                 placeholder="1-5"
-                value={formData.grade}
-                onChange={(e) => setField("grade", parseInt(e.target.value))}
+                value={ingData.number}
+                onChange={(e) => setIngField("number", parseInt(e.target.value))}
               />
             </Form.Group>
 
             <Form.Group as={Col} className="mb-3">
-              <Form.Label>Váha</Form.Label>
-              <Form.Select
-                value={formData.weight}
-                onChange={(e) => setField("weight", Number(e.target.value))}
-              >
-                <option value="" disabled>
-                  Váha známky
-                </option>
-                <option value={0.5}>0.5</option>
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-              </Form.Select>
-            </Form.Group>
+            <Form.Label>Jednotka</Form.Label>
+            <Form.Control
+              type="text"
+              value={ingData.unit}
+              onChange={(e) => setIngField("unit", e.target.value)}
+            />
+          </Form.Group>
+          <Button
+                style={{ float: "right" }}
+                variant="secondary"
+                class="btn btn-success btn-sm"
+                onClick={appendIngredient}
+            >
+                <Icon path={mdiPlus} size={1} />
+            </Button>
+
           </Row>
 
           <Form.Group className="mb-3">
-            <Form.Label>Datum</Form.Label>
+            <Form.Label>Ingredience:</Form.Label>
             <Form.Control
-              type="date"
-              value={formData.dateTs}
-              onChange={(e) => setField("dateTs", e.target.value)}
+              as="textarea"
+              readOnly
+              rows={4}
+              value={readOnly.text}
             />
           </Form.Group>
+
+
         </Modal.Body>
         <Modal.Footer>
           <div className="d-flex flex-row gap-2">
