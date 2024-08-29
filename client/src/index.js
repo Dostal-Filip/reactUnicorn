@@ -6,18 +6,21 @@ import App from './App';
 import Home from "./routes/Home";
 import reportWebVitals from './reportWebVitals';
 import RecipeDetail from './routes/RecipeDetail';
+import { UserProvider } from './UserProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   //<React.StrictMode>
+  <UserProvider>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
           <Route path="home" element={<Home />} />
           <Route path="detail" element={<RecipeDetail />} />
         </Route>
-        </Routes>
+      </Routes>
     </BrowserRouter>
+  </UserProvider>
   //</React.StrictMode>
 );
 
