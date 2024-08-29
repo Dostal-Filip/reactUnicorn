@@ -11,7 +11,7 @@ function ReciepForm(props) {
     const defaultForm = {
         name: "",
         id: "987654321",
-        imgUri: "https://www.shutterstock.com/image-vector/cookbook-open-book-photos-tomato-600nw-2153338009.jpg",
+        imgUri: "https://t3.ftcdn.net/jpg/05/17/54/92/360_F_517549233_fjVR9Kt1GlQqtvsGjb1ThVZAwa3gUviE.jpg",
         description: "",
         ingredients: [],
     };
@@ -28,7 +28,7 @@ function ReciepForm(props) {
           setFormData({
             name: props.recipe.name,
         id: props.recipe.id,
-        imgUri: "https://www.shutterstock.com/image-vector/cookbook-open-book-photos-tomato-600nw-2153338009.jpg",
+        imgUri: "https://t3.ftcdn.net/jpg/05/17/54/92/360_F_517549233_fjVR9Kt1GlQqtvsGjb1ThVZAwa3gUviE.jpg",
         description: props.recipe.description,
         ingredients: props.recipe.ingredients,
           });
