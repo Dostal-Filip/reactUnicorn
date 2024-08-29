@@ -1,8 +1,8 @@
 import Icon from "@mdi/react";
 import { Col, Form, Modal, Row } from 'react-bootstrap';
-import { mdiClipboardListOutline } from "@mdi/js";
-import { mdiPlus, mdiLoading } from "@mdi/js";
-import { useState } from 'react';
+import { mdiClipboardListOutline, mdiProgressPencil } from "@mdi/js";
+import { mdiPlus, mdiLoading, mdiMinus } from "@mdi/js";
+import { useEffect, useState } from 'react';
 import { Button } from "react-bootstrap";
 
 
@@ -19,8 +19,27 @@ function ReciepForm(props) {
     const handleShowModal = () => setShow(true);
     const handleCloseModal = () => setShow(false);
     const appendIngredient = () => appendField("ingredients", ingData);
+    const popIngredient = () => popField("ingredients", ingData);
     const [validated, setValidated] = useState(false);
 
+    useEffect(() => {
+        if (props.recipe) {
+          setFormData({
+            name: props.recipe.name,
+        id: props.recipe.id,
+        imgUri: "https://www.shutterstock.com/image-vector/cookbook-open-book-photos-tomato-600nw-2153338009.jpg",
+        description: props.recipe.description,
+        ingredients: props.recipe.ingredients,
+          });
+          props.recipe.ingredients.forEach(addArray);
+        } else {
+          setFormData(defaultForm);
+        }
+      }, [props.recipe]);
+
+      function addArray(item, index){
+        setReadOnlyField("text",item);
+      }
 
 
     const [addRecipeCall, setAddRecipeCall] = useState({
@@ -29,6 +48,7 @@ function ReciepForm(props) {
 
     const handleClose = () => {
         setFormData(defaultForm);
+        resetReadOnly();
         setShow(false);
     };
 
@@ -60,7 +80,7 @@ function ReciepForm(props) {
         console.log(payload3);
 
         setAddRecipeCall({ state: 'pending' });
-        const res = await fetch(`http://localhost:3000//recipe/create`, {
+        const res = await fetch(`http://localhost:3000//recipe/${props.recipe ? 'update' : 'create'}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -87,6 +107,15 @@ function ReciepForm(props) {
         });
     };
 
+    const popField = (name) => {
+        return setFormData((formData) => {
+            const newData = { ...formData };
+            newData[name].pop();
+            popReadOnlyField("text");
+            return newData;
+        });
+    };
+
     const setField = (name, val) => {
         return setFormData((formData) => {
             const newData = { ...formData };
@@ -103,10 +132,27 @@ function ReciepForm(props) {
         });
     };
 
+    const popReadOnlyField = (name) => {
+        return setReadOnly((readOnly) => {
+            const newData = { ...readOnly };
+            newData[name] = newData[name].slice(0,-1);
+            newData[name] = newData[name].substring(0, newData[name].lastIndexOf("\n"));
+            return newData;
+        });
+    };
+
     const setReadOnlyField = (name, val) => {
         return setReadOnly((readOnly) => {
             const newData = { ...readOnly };
             newData[name] = newData[name].concat(props.ingridientList.find(item => item.id === val.id).name, " ", val.amount, " ", val.unit, "\n");
+            return newData;
+        });
+    };
+
+    const resetReadOnly = () => {
+        return setReadOnly((readOnly) => {
+            const newData = { ...readOnly };
+            newData["text"] = "";
             return newData;
         });
     };
@@ -119,7 +165,7 @@ function ReciepForm(props) {
     });
 
     const [readOnly, setReadOnly] = useState({
-        text: null
+        text: ""
     });
 
     const [formData, setFormData] = useState({
@@ -137,7 +183,7 @@ function ReciepForm(props) {
             <Modal show={isModalShown} onHide={handleCloseModal}>
                 <Form noValidate validated={validated} onSubmit={(e) => handleSubmit(e)}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Vytvořit recept</Modal.Title>
+                        <Modal.Title>{props.recipe ? 'Upravit' : 'Vytvořit'} recept</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <br />
@@ -212,14 +258,26 @@ function ReciepForm(props) {
                                     onChange={(e) => setIngField("unit", e.target.value)}
                                 />
                             </Form.Group>
+                            <Form.Group>
                             <Button
                                 style={{ float: "right" }}
-                                variant="secondary"
+                                variant="primary"
                                 class="btn btn-success btn-sm"
                                 onClick={appendIngredient}
                             >
                                 <Icon path={mdiPlus} size={1} />
                             </Button>
+                           
+                            <Button
+                                style={{ float: "right" }}
+                                variant="warning"
+                                class="btn btn-success btn-sm"
+                                onClick={popIngredient}
+                            >
+                                <Icon path={mdiMinus} size={1} />
+                            </Button>
+                            </Form.Group>
+                            
 
                         </Row>
 
@@ -247,14 +305,14 @@ function ReciepForm(props) {
                                     <div className="text-danger">Error: {addRecipeCall.error.errorMessage}</div>
                                 }
                             </div>
-                            <Button variant="secondary" onClick={handleCloseModal}>
+                            <Button variant="secondary" onClick={handleClose}>
                                 Zavřít
                             </Button>
                             <Button variant="primary" type="submit">
                                 {addRecipeCall.state === 'pending' ? (
                                     <Icon size={0.8} path={mdiLoading} spin={true} />
                                 ) : (
-                                    "Přidat"
+                                    props.recipe ? 'Upravit' : 'Přidat'
                                 )}
                             </Button>
                         </div>
@@ -268,8 +326,8 @@ function ReciepForm(props) {
                 class="btn btn-success btn-sm"
                 onClick={handleShowModal}
             >
-                <Icon path={mdiPlus} size={1} />
-                Přidat Recept
+                <Icon path={props.recipe ? mdiProgressPencil : mdiPlus } size={1} />
+                {props.recipe ? 'Upravit' : 'Přidat'} recept
             </Button>
         </>
     )

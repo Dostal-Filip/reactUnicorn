@@ -2,6 +2,7 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import styles from "../css/recipe.module.css";
 import IngiridientList from "./IngridientList";
+import ReciepForm from "./RecipeForm";
 
 function Recipe(props) {
   return (
@@ -25,6 +26,11 @@ function Recipe(props) {
         </div>
 
       </Card.Body>
+      <ReciepForm
+          recipe={props.recipe}
+          ingridientList={props.ingredientList}
+
+      />
     </Card>
   );
 }
