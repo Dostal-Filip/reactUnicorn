@@ -18,9 +18,10 @@ function IngiridientList(props) {
           <Modal.Title>Seznam ingrediencí</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {console.log(props.ingridientList)}
           {
+            
             props.ingridients.map((ingredient) => {
+              if (props.ingridientList <= 0) {return <div></div>}
               let ingredientName = props.ingridientList.find(item => item.id === ingredient.id);
               return (
                 <div key={ingredient.id}>

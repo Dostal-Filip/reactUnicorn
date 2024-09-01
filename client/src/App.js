@@ -4,21 +4,17 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Icon from "@mdi/react";
-import { mdiPlus, mdiLoading } from "@mdi/js";
+import { mdiLoading } from "@mdi/js";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import RecipeForm from "./bricks/RecipeForm";
 
 function App() {
   let navigate = useNavigate();
-  const [addGradeShow, setAddGradeShow] = useState(false);
-  
-  const handleAddGradeShow = () => setAddGradeShow(true);
+
 
   const [ingredientLoadCall, setIngredientLoadCall] = useState({
     state: "pending",
@@ -82,7 +78,7 @@ function App() {
                 
           <RecipeForm
           ingridientList={ingredientLoadCall.data}
-        setAddGradeShow={setAddGradeShow}
+        
       />
               </Nav>
             </Offcanvas.Body>

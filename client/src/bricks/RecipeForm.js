@@ -1,20 +1,23 @@
 import Icon from "@mdi/react";
 import { Col, Form, Modal, Row } from 'react-bootstrap';
-import { mdiClipboardListOutline, mdiProgressPencil } from "@mdi/js";
+import { mdiProgressPencil } from "@mdi/js";
 import { mdiPlus, mdiLoading, mdiMinus } from "@mdi/js";
 import { useEffect, useState } from 'react';
 import { Button } from "react-bootstrap";
 import Confirmation from "./Confimation";
 
 
+const defaultForm = {
+    name: "",
+    id: "987654321",
+    imgUri: "https://t3.ftcdn.net/jpg/05/17/54/92/360_F_517549233_fjVR9Kt1GlQqtvsGjb1ThVZAwa3gUviE.jpg",
+    description: "",
+    ingredients: [],
+};
+
+
 function ReciepForm(props) {
-    const defaultForm = {
-        name: "",
-        id: "987654321",
-        imgUri: "https://t3.ftcdn.net/jpg/05/17/54/92/360_F_517549233_fjVR9Kt1GlQqtvsGjb1ThVZAwa3gUviE.jpg",
-        description: "",
-        ingredients: [],
-    };
+    
     const [isModalShown, setShow] = useState(false);
 
     const handleShowModal = () => setShow(true);
@@ -22,6 +25,18 @@ function ReciepForm(props) {
     const appendIngredient = () => appendField("ingredients", ingData);
     const popIngredient = () => popField("ingredients", ingData);
     const [validated, setValidated] = useState(false);
+
+    const [readOnly, setReadOnly] = useState({
+        text: ""
+    });
+
+    const setReadOnlyField = (name, val) => {
+        return setReadOnly((readOnly) => {
+            const newData = { ...readOnly };
+            newData[name] = newData[name].concat(props.ingridientList.find(item => item.id === val.id).name, " ", val.amount, " ", val.unit, "\n");
+            return newData;
+        });
+    };
 
     useEffect(() => {
         if (props.recipe) {
@@ -32,15 +47,13 @@ function ReciepForm(props) {
         description: props.recipe.description,
         ingredients: props.recipe.ingredients,
           });
-          props.recipe.ingredients.forEach(addArray);
+          props.recipe.ingredients.forEach((item) => {setReadOnlyField("text",item);});
         } else {
           setFormData(defaultForm);
         }
-      }, [props.recipe]);
+      }, [props.recipe, setReadOnlyField]);
 
-      function addArray(item, index){
-        setReadOnlyField("text",item);
-      }
+
 
 
     const [addRecipeCall, setAddRecipeCall] = useState({
@@ -142,13 +155,7 @@ function ReciepForm(props) {
         });
     };
 
-    const setReadOnlyField = (name, val) => {
-        return setReadOnly((readOnly) => {
-            const newData = { ...readOnly };
-            newData[name] = newData[name].concat(props.ingridientList.find(item => item.id === val.id).name, " ", val.amount, " ", val.unit, "\n");
-            return newData;
-        });
-    };
+    
 
     const resetReadOnly = () => {
         return setReadOnly((readOnly) => {
@@ -165,9 +172,7 @@ function ReciepForm(props) {
         unit: ""
     });
 
-    const [readOnly, setReadOnly] = useState({
-        text: ""
-    });
+    
 
     const [formData, setFormData] = useState({
         name: "",

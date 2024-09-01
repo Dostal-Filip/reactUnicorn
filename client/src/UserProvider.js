@@ -1,9 +1,9 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
 
 const UserContext = createContext();
 
 export function UserProvider({ children }) {
-    const value =   {isAuthorized: true };
+
 
     return (
         <UserContext.Provider

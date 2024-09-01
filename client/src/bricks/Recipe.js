@@ -18,7 +18,7 @@ function Recipe(props) {
 
 
 
-          <img className={styles.image} src={props.recipe.imgUri} ></img>
+          <img className={styles.image} src={props.recipe.imgUri} alt="TODO" ></img>
           <div className={styles.title}>
 
             {props.recipe.name} <IngiridientList ingridients={props.recipe.ingredients} ingridientList={props.ingredientList} />
