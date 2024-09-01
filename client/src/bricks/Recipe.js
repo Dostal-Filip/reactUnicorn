@@ -13,12 +13,12 @@ function Recipe(props) {
   return (
     <Card className={styles.main}>
       <Card.Body className={styles.mainb}>
-        <div className={styles.icon}>
+        <div className={styles.icon} >
 
 
 
-
-          <img className={styles.image} src={props.recipe.imgUri} alt="TODO" ></img>
+    <a href={`/detail?id=${props.recipe.id}`}>
+          <img className={styles.image} src={props.recipe.imgUri} alt="Obrázek receptu"  ></img> </a>
           <div className={styles.title}>
 
             {props.recipe.name} <IngiridientList ingridients={props.recipe.ingredients} ingridientList={props.ingredientList} />

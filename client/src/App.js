@@ -72,9 +72,6 @@ function App() {
                 <Nav.Link onClick={() => navigate("/home")}>
                   Recepty
                 </Nav.Link>
-                <Nav.Link onClick={() => navigate("/detail")}>
-                  Detail
-                </Nav.Link>
                 
           <RecipeForm
           ingridientList={ingredientLoadCall.data}
